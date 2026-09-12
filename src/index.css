@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+@theme {
+  /* Override Tailwind zinc colors to shades of grey for backgrounds */
+  --color-zinc-950: #0f172a; /* dark slate/charcoal grey */
+  --color-zinc-900: #1e293b; /* medium dark charcoal grey */
+  --color-zinc-850: #334155; /* slate grey */
+  --color-zinc-800: #475569; /* slate border */
+  --color-zinc-700: #64748b; /* medium grey */
+  --color-zinc-600: #94a3b8; /* light grey */
+  --color-zinc-500: #cbd5e1; /* lighter grey */
+  
+  /* Map amber/rose/purple accents to high-contrast reds */
+  --color-amber-500: #dc2626; /* primary red */
+  --color-amber-400: #ef4444; /* lighter red */
+  --color-rose-500: #b91c1c; /* dark red */
+  --color-rose-400: #f87171; /* bright red */
+  --color-purple-600: #991b1b; /* darkest red */
+  --color-purple-500: #b91c1c;
+}
+
+/* Global resets and body styling */
+body {
+  background-color: #cbd5e1 !important; /* solid premium grey background */
+  color: #fca5a5 !important; /* light red text for high contrast on dark panels */
+}
+
+/* Headings should be solid white for premium contrast & legibility */
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff !important; /* white text */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* General body text and writeup colors */
+p, label, li, td, th {
+  color: #fca5a5 !important; /* light red writeup */
+}
+
+span {
+  color: #fca5a5 !important;
+}
+
+/* Metadata and secondary text */
+.text-zinc-400, .text-zinc-500, .text-zinc-600 {
+  color: #f87171 !important; /* bright red */
+}
+
+.text-zinc-300, .text-zinc-200, .text-zinc-100 {
+  color: #fca5a5 !important; /* light red */
+}
+
+/* Force card and container backgrounds to dark charcoal grey */
+.bg-zinc-900, .bg-zinc-950, .bg-zinc-900\/40, .bg-zinc-950\/40, .bg-zinc-900\/60, .bg-zinc-950\/60, .bg-zinc-950\/80 {
+  background-color: #1e293b !important; /* dark charcoal grey for cards */
+  border-color: #334155 !important; /* slate grey borders */
+}
+
+.bg-zinc-950\/20, .bg-zinc-900\/20 {
+  background-color: #0f172a !important;
+}
+
+/* Navigation overrides */
+nav {
+  background-color: #0f172a !important; /* dark grey navbar */
+  border-color: #1e293b !important;
+}
+
+nav button {
+  color: #fca5a5 !important;
+}
+
+nav button:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+/* Input elements styling */
+input, select, textarea {
+  background-color: #0f172a !important; /* dark charcoal for input fields */
+  color: #ffffff !important; /* white text inside inputs */
+  border: 1px solid #334155 !important; /* slate border */
+}
+
+input::placeholder, textarea::placeholder {
+  color: #ef4444/60 !important; /* red placeholder */
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #dc2626 !important; /* red focus border */
+}
+
+/* Subheading backgrounds / Alert Banners - Reduced Opacity Red with White Text */
+.bg-rose-500\/10, .bg-red-500\/10, .bg-amber-500\/10, .bg-amber-500\/5, .bg-red-500\/5, .bg-rose-500\/5 {
+  background-color: rgba(185, 28, 28, 0.15) !important; /* transparent red background */
+  border: 1px solid rgba(239, 68, 68, 0.3) !important; /* translucent red border */
+}
+
+/* Ensure all text and icons inside translucent red containers are white */
+.bg-rose-500\/10 *, .bg-red-500\/10 *, .bg-amber-500\/10 *, .bg-amber-500\/5 *, .bg-red-500\/5 *, .bg-rose-500\/5 * {
+  color: #ffffff !important;
+}
+
+.bg-rose-500\/10 svg, .bg-red-500\/10 svg, .bg-amber-500\/10 svg, .bg-amber-500\/5 svg, .bg-red-500\/5 svg, .bg-rose-500\/5 svg {
+  stroke: #ffffff !important;
+}
+
+/* Standard Buttons - Solid Red with White Text */
+.bg-gradient-to-r, button[type="submit"], .bg-amber-500 {
+  background-image: none !important;
+  background-color: #b91c1c !important; /* solid red */
+  color: #ffffff !important; /* white text */
+  border: none !important;
+}
+
+.bg-gradient-to-r *, button[type="submit"] *, .bg-amber-500 * {
+  color: #ffffff !important; /* white text inside solid red buttons */
+}
+
+.bg-gradient-to-r:hover, button[type="submit"]:hover, .bg-amber-500:hover {
+  background-color: #dc2626 !important; /* brighter red on hover */
+  color: #ffffff !important;
+}
+
+/* Guidelines and secondary buttons */
+button.bg-zinc-800 {
+  background-color: #334155 !important; /* medium-dark grey button */
+  color: #ffffff !important; /* white text */
+  border: 1px solid #475569 !important;
+}
+
+button.bg-zinc-800:hover {
+  background-color: #475569 !important;
+  color: #ffffff !important;
+}
+
+/* Chat boxes and special bubbles */
+.bg-rose-950\/30 {
+  background-color: rgba(185, 28, 28, 0.15) !important; /* translucent red */
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+.bg-amber-500.text-black {
+  background-color: #b91c1c !important; /* solid red */
+  color: #ffffff !important; /* white text */
+}
+
+.bg-amber-500.text-black * {
+  color: #ffffff !important;
+}
+
+/* QR Code and Modals */
+.bg-white {
+  background-color: #ffffff !important; /* keep QR background white for scanning */
+}
+
+.bg-white * {
+  color: #000000 !important; /* keep QR code black */
+}
+
+/* Status Badges */
+.bg-emerald-500\/10 {
+  background-color: rgba(16, 185, 129, 0.15) !important; /* translucent green */
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+.bg-emerald-500\/10 * {
+  color: #34d399 !important; /* bright green text for readability */
+}
+
+.bg-rose-500\/10 {
+  background-color: rgba(239, 68, 68, 0.15) !important; /* translucent red */
+}
+.bg-rose-500\/10 * {
+  color: #fca5a5 !important; /* light red text */
+}
+
+.bg-amber-500\/10 {
+  background-color: rgba(245, 158, 11, 0.15) !important; /* translucent amber */
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+.bg-amber-500\/10 * {
+  color: #fbbf24 !important; /* bright amber text */
+}
+
+.bg-amber-500\/5 {
+  background-color: rgba(245, 158, 11, 0.08) !important;
+}
+
+/* Ensure icons are colored light red */
+svg {
+  stroke: #fca5a5 !important;
+}
+
+/* Except icons inside solid red buttons or white headers */
+button.bg-gradient-to-r svg, button[type="submit"] svg, .bg-amber-500 svg, .bg-amber-500.text-black svg, h1 svg, h2 svg, h3 svg, h4 svg, h5 svg, h6 svg {
+  stroke: #ffffff !important;
+}
+
+/* Age Gate text contrast */
+.bg-red-700 * {
+  color: #ffffff !important;
+}
+.bg-red-700 svg {
+  stroke: #ffffff !important;
+}
