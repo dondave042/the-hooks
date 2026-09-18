@@ -35,7 +35,7 @@ export default function BookingTracker({ bookings, preselectedBookingId, onAddMe
     const found = bookings.find(b => b.id.toUpperCase().trim() === searchId.toUpperCase().trim());
     setActiveBooking(found || null);
     if (!found) {
-      alert("Booking ID not found. Please check the spelling (e.g. AURA-8392-VIP).");
+      alert("Booking ID not found. Please check the spelling (e.g. XFANS-8392-VIP).");
     }
   };
 
@@ -92,7 +92,7 @@ export default function BookingTracker({ bookings, preselectedBookingId, onAddMe
         <div className="max-w-md mx-auto space-y-2">
           <h2 className="text-xl font-serif font-black text-white">Track Your Booking Status</h2>
           <p className="text-xs text-zinc-400">
-            Enter your secure Booking ID (e.g. <span className="font-mono text-amber-500">AURA-8392-VIP</span>) to view real-time safety vetting progress and communicate with security.
+            Enter your secure Booking ID (e.g. <span className="font-mono text-amber-500">XFANS-8392-VIP</span>) to view real-time safety vetting progress and communicate with security.
           </p>
         </div>
 
@@ -101,7 +101,7 @@ export default function BookingTracker({ bookings, preselectedBookingId, onAddMe
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <input
               type="text"
-              placeholder="Enter Booking ID (AURA-XXXX-VIP)"
+              placeholder="Enter Booking ID (XFANS-XXXX-VIP)"
               value={searchId}
               onChange={(e) => setSearchId(e.target.value)}
               className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-3 pl-10 pr-4 text-sm font-mono text-white focus:outline-none focus:border-amber-500 transition uppercase"
@@ -377,7 +377,7 @@ export default function BookingTracker({ bookings, preselectedBookingId, onAddMe
             
             {/* Pass Header */}
             <div className="border-b border-zinc-900 pb-4">
-              <span className="text-[10px] font-black tracking-[0.2em] text-amber-500 block">AURA VIP MEETINGS</span>
+              <span className="text-[10px] font-black tracking-[0.2em] text-amber-500 block">XFANS VIP MEETINGS</span>
               <h3 className="text-lg font-serif font-black text-white mt-1">VERIFIED MEETING PASS</h3>
             </div>
 

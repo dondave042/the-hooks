@@ -2,7 +2,7 @@ import { Booking } from '../types';
 
 export const mockBookings: Booking[] = [
   {
-    id: 'AURA-8392-VIP',
+    id: 'XFANS-8392-VIP',
     creatorId: 'amara-vance',
     creatorName: 'Amara Vance',
     fanName: 'Jonathan Mercer',
@@ -52,7 +52,7 @@ export const mockBookings: Booking[] = [
     ]
   },
   {
-    id: 'AURA-4710-VIP',
+    id: 'XFANS-4710-VIP',
     creatorId: 'kaelen-rose',
     creatorName: 'Kaelen Rose',
     fanName: 'Hiroshi Tanaka',
@@ -96,7 +96,7 @@ export const mockBookings: Booking[] = [
     ]
   },
   {
-    id: 'AURA-9051-VIP',
+    id: 'XFANS-9051-VIP',
     creatorId: 'leo-sterling',
     creatorName: 'Leo Sterling',
     fanName: 'Marcus Vance',
@@ -126,7 +126,7 @@ export const mockBookings: Booking[] = [
     messages: []
   },
   {
-    id: 'AURA-1204-VIP',
+    id: 'XFANS-1204-VIP',
     creatorId: 'amara-vance',
     creatorName: 'Amara Vance',
     fanName: 'David Miller',

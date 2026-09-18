@@ -18,6 +18,7 @@ import './App.css';
 function App() {
   const [activeTab, setActiveTab] = useState<string>('home');
   const [userRole, setUserRole] = useState<'fan' | 'admin' | 'creator'>('fan');
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('signup');
   const [preselectedCreatorId, setPreselectedCreatorId] = useState<string>('');
   const [preselectedBookingId, setPreselectedBookingId] = useState<string>('');
   const [selectedCreatorRules, setSelectedCreatorRules] = useState<Creator | null>(null);
@@ -123,7 +124,7 @@ function App() {
           } else if (status === 'declined') {
             systemText = `Security Notice: Booking DECLINED. Escrow deposit released. Your profile has been cleared from active files.`;
           } else if (status === 'under_review') {
-            systemText = `Security Notice: ID validated successfully. Aura Security detail has initiated background clearance checks.`;
+            systemText = `Security Notice: ID validated successfully. XFans Security detail has initiated background clearance checks.`;
           }
           
           systemMessages.push({
@@ -199,9 +200,9 @@ function App() {
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
-        userRole={userRole} 
-        setUserRole={setUserRole} 
-        hasProfile={!!userProfile}
+        userProfile={userProfile}
+        onLogout={handleDeleteProfile}
+        setAuthMode={setAuthMode}
       />
 
       {/* Main Content Area */}
@@ -213,9 +214,9 @@ function App() {
             <div className="flex gap-3 items-start">
               <AlertTriangle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-xs font-bold text-red-600 uppercase tracking-wider">MANDATORY FAN PROFILE REQUIRED</h4>
+                <h4 className="text-xs font-bold text-red-600 uppercase tracking-wider">MANDATORY SIGN UP REQUIRED</h4>
                 <p className="text-xs text-zinc-400">
-                  You must create a verified Fan Profile with a mandatory profile picture before booking. This speeds up approval and pre-fills your data.
+                  You must Sign up and create a verified Fan Profile with a mandatory profile picture before booking. This speeds up approval and pre-fills your data.
                 </p>
               </div>
             </div>
@@ -223,7 +224,7 @@ function App() {
               onClick={() => setActiveTab('profile')}
               className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2 px-4 rounded-lg shrink-0 transition"
             >
-              Create Profile Now
+              Sign up Now
             </button>
           </div>
         )}
@@ -286,6 +287,8 @@ function App() {
             onSaveProfile={handleSaveProfile}
             onDeleteProfile={handleDeleteProfile}
             pastBookingsCount={bookings.filter(b => b.fanName === userProfile?.name).length}
+            authMode={authMode}
+            setAuthMode={setAuthMode}
           />
         )}
 
@@ -324,7 +327,11 @@ function App() {
       </div>
 
       {/* Footer */}
-      <Footer setActiveTab={setActiveTab} />
+      <Footer 
+        setActiveTab={setActiveTab} 
+        userRole={userRole}
+        setUserRole={setUserRole}
+      />
 
       {/* POPUP MODAL: Creator Rules & Boundaries */}
       {selectedCreatorRules && (

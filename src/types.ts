@@ -76,4 +76,6 @@ export interface FanProfile {
   state: string;
   city: string;
   profilePicture: string; // Base64 data URL or stock URL
+  email: string;
+  password?: string;
 }

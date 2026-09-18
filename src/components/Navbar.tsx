@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Shield, Menu, X, User, Settings, Sparkles, Heart, ShieldAlert, UserCheck } from 'lucide-react';
+import { Shield, Menu, X, User, Sparkles, Heart, LogIn, LogOut, UserPlus } from 'lucide-react';
+import { FanProfile } from '../types';
 
 interface NavbarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
-  userRole: 'fan' | 'admin' | 'creator';
-  setUserRole: (role: 'fan' | 'admin' | 'creator') => void;
-  hasProfile: boolean;
+  userProfile: FanProfile | null;
+  onLogout: () => void;
+  setAuthMode: (mode: 'login' | 'signup') => void;
 }
 
-export default function Navbar({ activeTab, setActiveTab, userRole, setUserRole, hasProfile }: NavbarProps) {
+export default function Navbar({ activeTab, setActiveTab, userProfile, onLogout, setAuthMode }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -17,7 +18,7 @@ export default function Navbar({ activeTab, setActiveTab, userRole, setUserRole,
     { id: 'creators', label: 'Creators' },
     { id: 'book', label: 'Book a Meeting' },
     { id: 'tracker', label: 'Track Booking' },
-    { id: 'profile', label: hasProfile ? 'My Fan Profile' : 'Create Fan Profile' },
+    { id: 'profile', label: userProfile ? 'My Fan Profile' : 'Sign up' },
     { id: 'safety', label: 'Safety & Rules' },
   ];
 
@@ -27,19 +28,11 @@ export default function Navbar({ activeTab, setActiveTab, userRole, setUserRole,
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center cursor-pointer" onClick={() => setActiveTab('home')}>
-            <div className="relative mr-3 bg-red-600 p-2.5 rounded-xl shadow-lg shadow-red-500/10">
-              <Shield className="h-6 w-6 text-white stroke-[2.5]" />
-              <div className="absolute -top-1 -right-1 bg-white text-[9px] font-bold text-black px-1 rounded-full animate-pulse flex items-center gap-0.5">
+            <div className="relative mr-3.5 bg-zinc-950 border-2 border-red-600 p-1 rounded-2xl shadow-xl shadow-red-600/20 transition-transform duration-300 hover:scale-105">
+              <img src="/logo.jpeg" alt="XFans Logo" className="h-12 w-auto max-w-[140px] object-contain rounded-xl" />
+              <div className="absolute -top-1.5 -right-1.5 bg-red-700 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-md animate-pulse flex items-center gap-0.5 border border-white/20">
                 18<span className="text-[7px]">+</span>
               </div>
-            </div>
-            <div>
-              <span className="text-2xl font-black tracking-wider bg-gradient-to-r from-white via-zinc-200 to-red-500 bg-clip-text text-transparent font-serif">
-                AURA
-              </span>
-              <span className="text-xs font-bold tracking-[0.2em] text-red-500 block -mt-1">
-                18+ VIP PORTAL
-              </span>
             </div>
           </div>
 
@@ -49,7 +42,7 @@ export default function Navbar({ activeTab, setActiveTab, userRole, setUserRole,
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`px-3 py-2 rounded-lg text-xs font-bold transition-all duration-300 ${
+                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all duration-300 ${
                   activeTab === item.id
                     ? 'text-red-500 bg-red-500/10 border border-red-500/20'
                     : 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
@@ -60,63 +53,102 @@ export default function Navbar({ activeTab, setActiveTab, userRole, setUserRole,
             ))}
           </div>
 
-          {/* Role Switcher Controls */}
-          <div className="hidden lg:flex items-center space-x-3 bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
-            <button
-              onClick={() => {
-                setUserRole('fan');
-                setActiveTab('home');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition ${
-                userRole === 'fan'
-                  ? 'bg-red-600 text-white shadow'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              Fan Mode
-            </button>
-            <button
-              onClick={() => {
-                setUserRole('admin');
-                setActiveTab('admin');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition flex items-center gap-1 ${
-                userRole === 'admin'
-                  ? 'bg-red-600 text-white shadow'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              <ShieldAlert className="h-3 w-3" />
-              Admin Mode
-            </button>
-            <button
-              onClick={() => {
-                setUserRole('creator');
-                setActiveTab('dashboard');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition flex items-center gap-1 ${
-                userRole === 'creator'
-                  ? 'bg-red-600 text-white shadow'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              <Settings className="h-3 w-3" />
-              Creator
-            </button>
+          {/* Auth Buttons / User Profile Widget */}
+          <div className="hidden lg:flex items-center space-x-3">
+            {userProfile ? (
+              /* Logged In: Show Avatar, Name & Log Out button */
+              <div className="flex items-center gap-3 bg-zinc-900/60 p-1.5 pl-3 pr-2.5 rounded-xl border border-zinc-800">
+                <div className="flex items-center gap-2">
+                  <img 
+                    src={userProfile.profilePicture} 
+                    alt={userProfile.name} 
+                    className="h-8 w-8 rounded-full object-cover border border-red-600"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop`;
+                    }}
+                  />
+                  <span className="text-xs font-bold text-white truncate max-w-[100px]">
+                    {userProfile.name.split(' ')[0]}
+                  </span>
+                </div>
+                <button
+                  onClick={onLogout}
+                  className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-red-500 transition cursor-pointer"
+                  title="Log Out"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              /* Not Logged In: Show explicit Sign Up & Login buttons */
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setAuthMode('login');
+                    setActiveTab('profile');
+                  }}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-zinc-300 hover:text-white hover:bg-zinc-900 transition flex items-center gap-1 cursor-pointer"
+                >
+                  <LogIn className="h-3.5 w-3.5 text-red-500" />
+                  Log In
+                </button>
+                <button
+                  onClick={() => {
+                    setAuthMode('signup');
+                    setActiveTab('profile');
+                  }}
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white transition flex items-center gap-1 shadow-lg cursor-pointer"
+                >
+                  <UserPlus className="h-3.5 w-3.5" />
+                  Sign Up
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="lg:hidden flex items-center space-x-2">
-            <button
-              onClick={() => {
-                setUserRole('admin');
-                setActiveTab('admin');
-              }}
-              className={`p-2 rounded-lg ${activeTab === 'admin' ? 'bg-red-600/15 text-red-500' : 'bg-zinc-900 text-zinc-400'}`}
-              title="Admin Mode"
-            >
-              <ShieldAlert className="h-5 w-5" />
-            </button>
+          {/* Mobile menu button & Auth Buttons */}
+          <div className="lg:hidden flex items-center gap-2">
+            {userProfile ? (
+              <div className="flex items-center gap-1.5 bg-zinc-900/60 p-1 rounded-lg border border-zinc-800">
+                <img 
+                  src={userProfile.profilePicture} 
+                  alt={userProfile.name} 
+                  className="h-8 w-8 rounded-full object-cover border border-red-600 cursor-pointer"
+                  onClick={() => setActiveTab('profile')}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = `https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop`;
+                  }}
+                />
+                <button
+                  onClick={onLogout}
+                  className="p-1 hover:bg-zinc-800 rounded text-zinc-400 hover:text-red-500 transition cursor-pointer"
+                  title="Log Out"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => {
+                    setAuthMode('login');
+                    setActiveTab('profile');
+                  }}
+                  className="px-2.5 py-1.5 rounded-lg text-[10px] font-extrabold bg-zinc-900 text-zinc-300 border border-zinc-800 cursor-pointer"
+                >
+                  Log In
+                </button>
+                <button
+                  onClick={() => {
+                    setAuthMode('signup');
+                    setActiveTab('profile');
+                  }}
+                  className="px-2.5 py-1.5 rounded-lg text-[10px] font-extrabold bg-red-600 text-white cursor-pointer shadow-md"
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white hover:bg-zinc-800 focus:outline-none"
@@ -148,43 +180,55 @@ export default function Navbar({ activeTab, setActiveTab, userRole, setUserRole,
               </button>
             ))}
             
-            {/* Mobile Role Switcher */}
+            {/* Mobile Auth Buttons */}
             <div className="pt-4 border-t border-zinc-900 mt-2 px-4 space-y-2">
-              <span className="text-[10px] font-extrabold tracking-wider text-zinc-500 uppercase block mb-1">Switch Role View</span>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  onClick={() => {
-                    setUserRole('fan');
-                    setActiveTab('home');
-                    setIsOpen(false);
-                  }}
-                  className={`py-2 text-center text-xs font-bold rounded-lg ${userRole === 'fan' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400'}`}
-                >
-                  Fan
-                </button>
-                <button
-                  onClick={() => {
-                    setUserRole('admin');
-                    setActiveTab('admin');
-                    setIsOpen(false);
-                  }}
-                  className={`py-2 text-center text-xs font-bold rounded-lg flex items-center justify-center gap-1 ${userRole === 'admin' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400'}`}
-                >
-                  <ShieldAlert className="h-3.5 w-3.5" />
-                  Admin
-                </button>
-                <button
-                  onClick={() => {
-                    setUserRole('creator');
-                    setActiveTab('dashboard');
-                    setIsOpen(false);
-                  }}
-                  className={`py-2 text-center text-xs font-bold rounded-lg flex items-center justify-center gap-1 ${userRole === 'creator' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400'}`}
-                >
-                  <Settings className="h-3.5 w-3.5" />
-                  Creator
-                </button>
-              </div>
+              {userProfile ? (
+                <div className="flex items-center justify-between bg-zinc-900 p-2 rounded-xl border border-zinc-850">
+                  <div className="flex items-center gap-2">
+                    <img 
+                      src={userProfile.profilePicture} 
+                      alt={userProfile.name} 
+                      className="h-8 w-8 rounded-full object-cover border border-red-600"
+                    />
+                    <span className="text-xs font-bold text-white">{userProfile.name}</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setIsOpen(false);
+                    }}
+                    className="text-xs font-bold text-red-500 flex items-center gap-1"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    Log Out
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => {
+                      setAuthMode('login');
+                      setActiveTab('profile');
+                      setIsOpen(false);
+                    }}
+                    className="py-2 text-center text-xs font-bold rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 flex items-center justify-center gap-1"
+                  >
+                    <LogIn className="h-3.5 w-3.5 text-red-500" />
+                    Log In
+                  </button>
+                  <button
+                    onClick={() => {
+                      setAuthMode('signup');
+                      setActiveTab('profile');
+                      setIsOpen(false);
+                    }}
+                    className="py-2 text-center text-xs font-bold rounded-lg bg-red-600 text-white flex items-center justify-center gap-1"
+                  >
+                    <UserPlus className="h-3.5 w-3.5" />
+                    Sign Up
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

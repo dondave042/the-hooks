@@ -176,7 +176,7 @@ export default function BookingForm({ creators, preselectedCreatorId, onBookingS
 
     // Simulate network delay
     setTimeout(() => {
-      const generatedId = `AURA-${Math.floor(1000 + Math.random() * 9000)}-VIP`;
+      const generatedId = `XFANS-${Math.floor(1000 + Math.random() * 9000)}-VIP`;
       
       const newBooking: Booking = {
         id: generatedId,
@@ -757,7 +757,7 @@ export default function BookingForm({ creators, preselectedCreatorId, onBookingS
                 <div className="border border-zinc-800 bg-zinc-950/40 rounded-xl p-4 flex flex-col justify-between">
                   <div>
                     <span className="text-[11px] font-extrabold tracking-wider text-zinc-400 uppercase block mb-1">2. Selfie Verification</span>
-                    <p className="text-[10px] text-zinc-500 mb-3">Upload a selfie holding a handwritten note saying: <strong className="text-amber-500">"AURA VIP + [Today's Date]"</strong>.</p>
+                    <p className="text-[10px] text-zinc-500 mb-3">Upload a selfie holding a handwritten note saying: <strong className="text-amber-500">"XFANS VIP + [Today's Date]"</strong>.</p>
                   </div>
 
                   <div className="relative border-2 border-dashed border-zinc-800 hover:border-amber-500/50 rounded-lg p-6 text-center cursor-pointer transition">

@@ -202,3 +202,9 @@ button.bg-gradient-to-r svg, button[type="submit"] svg, .bg-amber-500 svg, .bg-a
 .bg-red-700 svg {
   stroke: #ffffff !important;
 }
+
+/* Trust Badges - Force text to black */
+.trust-badge-text {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
